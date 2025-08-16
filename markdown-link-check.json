@@ -1,0 +1,28 @@
+{
+  "files": ["README.md", "**/README.md", "docs/**/*.md"],
+  "ignorePatterns": [
+    {
+      "pattern": "^https://teams\\.microsoft\\.com/"
+    },
+    {
+      "pattern": "^https://lvjp\\.sharepoint\\.com/"
+    },
+    {
+      "pattern": "^https://github\\.com/.+/issues/\\d+"
+    },
+    {
+      "pattern": "^mailto:"
+    }
+  ],
+  "replacementPatterns": [
+    {
+      "pattern": "^\\.\\./",
+      "replacement": ""
+    }
+  ],
+  "timeout": "20s",
+  "retryOn429": true,
+  "retryCount": 5,
+  "fallbackRetryDelay": "30s",
+  "aliveStatusCodes": [200, 206]
+}
