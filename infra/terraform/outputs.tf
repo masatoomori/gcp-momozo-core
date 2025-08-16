@@ -18,3 +18,13 @@ output "domain_name" {
   description = "Configured domain name"
   value       = var.domain_name
 }
+
+output "lb_ip_address" {
+  description = "Global IP address for HTTPS load balancer"
+  value       = google_compute_global_address.lb_ip.address
+}
+
+output "www_url" {
+  description = "Public URL for the www domain"
+  value       = "https://${local.www_domain}/"
+}
