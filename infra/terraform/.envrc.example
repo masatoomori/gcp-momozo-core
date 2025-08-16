@@ -1,0 +1,10 @@
+source_up
+
+export TF_VAR_project_id=$(gcloud config get-value project)
+export TF_VAR_region=$TERRAFORM_STATE_REGION
+
+diff_output=$(diff .envrc .envrc.example)
+if [ ! -z "$diff_output" ]; then
+  echo "Difference between .envrc and .envrc.example at "$(pwd)
+  echo "$diff_output"
+fi

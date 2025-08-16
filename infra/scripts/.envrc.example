@@ -1,0 +1,7 @@
+source_up
+
+diff_output=$(diff .envrc .envrc.example)
+if [ ! -z "$diff_output" ]; then
+  echo "Difference between .envrc and .envrc.example at "$(pwd)
+  echo "$diff_output"
+fi

@@ -1,0 +1,108 @@
+source_up
+
+export REPOSITORY_NAME=$(basename `git rev-parse --show-toplevel`)
+export REPOSITORY_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+export PYTHONPATH=$REPOSITORY_ROOT_DIR
+export LOG_FORMAT="%(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
+
+export DATA_DIR=$REPOSITORY_ROOT_DIR/data
+export RAW_DATA_DIR=$DATA_DIR/raw
+export INTERMEDIATE_DATA_DIR=$DATA_DIR/intermediate
+export LOCAL_AVRO_DIR=$INTERMEDIATE_DATA_DIR/avro
+export LOCAL_CSV_DIR=$INTERMEDIATE_DATA_DIR/csv
+export LOCAL_PARQUET_DIR=$INTERMEDIATE_DATA_DIR/parquet
+export PROCESSED_DATA_DIR=$DATA_DIR/processed
+export PREDICTION_DATA_DIR=$DATA_DIR/prediction
+export DATAIKU_DIR=$REPOSITORY_ROOT_DIR/dataiku
+export MODEL_DIR=$REPOSITORY_ROOT_DIR/models
+export REFERENCE_DIR=$REPOSITORY_ROOT_DIR/references
+export REPORT_DIR=$REPOSITORY_ROOT_DIR/reports
+export SCHEMA_DIR=$REPOSITORY_ROOT_DIR/schemas
+
+# overwrite default values if needed
+export GOOGLE_ACCOUNT=$DEFAULT_GOOGLE_ACCOUNT
+export GOOGLE_CLOUD_PROJECT=$DEFAULT_GOOGLE_CLOUD_PROJECT
+export BQ_DEFAULT_LOCATION='EU'
+export BQ_DATASET_SOURCE=$DEFAULT_BQ_DATASET_SOURCE
+export BQ_DATASET_WORKING=$DEFAULT_BQ_DATASET_WORKING
+export BQ_DATASET_EXPO=$DEFAULT_BQ_DATASET_EXPO
+export GCS_BUCKET_SOURCE=$DEFAULT_GCS_BUCKET_SOURCE
+export GCS_BUCKET_WORKING=$DEFAULT_GCS_BUCKET_WORKING
+export GCS_BUCKET_EXPO=$DEFAULT_GCS_BUCKET_EXPO
+
+# export TERRAFORM_STATE_BUCKET="$GOOGLE_CLOUD_PROJECT-tfstate"
+# export TERRAFORM_STATE_PREFIX=$REPOSITORY_NAME
+# export TERRAFORM_STATE_REGION="us-central1"
+
+# export GEMINI_API_KEY=$PLAYGROUND_GEMINI_API_KEY
+# export GEMINI_MODEL="gemini-2.0-flash"
+
+#### ADD PROJECT SPECIFIC ENVIRONMENTAL VARIABLES BELOW ####
+
+# export DSS_API_KEY=$DEFAULT_DSS_API_KEY
+# export DSS_PROJECT_KEY=$DEFAULT_DSS_PROJECT_KEY
+# export DSS_BQ_CONNECTION_NAME=$DEFAULT_DSS_BQ_CONNECTION_NAME
+# export DSS_GCS_CONNECTION_NAME=$DEFAULT_DSS_GCS_CONNECTION_NAME
+
+#### ADD PROJECT SPECIFIC ENVIRONMENTAL VARIABLES ABOVE ####
+
+diff_output=$(diff .envrc .envrc.example)
+if [ ! -z "$diff_output" ]; then
+  echo "Difference between .envrc and .envrc.example at "$(pwd)
+  echo "$diff_output"
+fi
+
+PYPROJECT_NAME=$REPOSITORY_NAME
+sed -i '' "s/^name = \".*\"/name = \"${PYPROJECT_NAME}\"/" pyproject.toml
+echo "pyproject.toml updated with project name: $PYPROJECT_NAME"
+DATAIKU_URL=$DATAIKU_INTERNAL_CLIENT_URL	# set in ../.envrc
+sed -i '' "s|^dataiku-internal-client = {url = \".*\"}|dataiku-internal-client = {url = \"${DATAIKU_URL}\"}|" pyproject.toml
+echo "pyproject.toml updated with dataiku-internal-client URL: $DATAIKU_URL"
+
+# COMMENT OUT BELOW TO AVOID GCP CREDENTIALS SWITCHING
+# gcloud config set account $GOOGLE_ACCOUNT
+# gcloud config set project $GOOGLE_CLOUD_PROJECT
+
+echo "======== BASIC INFORMATION     ========"
+echo "  GOOGLE ACCOUNT               ="$GOOGLE_ACCOUNT           # $(gcloud config get-value account)
+echo "  REPOSITORY_NAME              ="$REPOSITORY_NAME
+echo "  PYPROJECT_NAME               ="$PYPROJECT_NAME
+echo "  TERRAFORM_STATE_BUCKET       ="$TERRAFORM_STATE_BUCKET
+echo "  TERRAFORM_STATE_PREFIX       ="$TERRAFORM_STATE_PREFIX
+echo "  TERRAFORM_STATE_REGION       ="$TERRAFORM_STATE_REGION
+echo "======== PATH INFORMATION      ========"
+echo "  PYTHON ACTIVATED             ="$(which python)
+echo "  PYTHONPATH                   ="$PYTHONPATH
+echo "======== CLOUD RESOURCES       ========"
+echo "  GOOGLE_CLOUD_PROJECT         ="$GOOGLE_CLOUD_PROJECT     # $(gcloud config get-value project)
+echo "  BQ_DEFAULT_LOCATION          ="$BQ_DEFAULT_LOCATION
+echo "  BQ_DATASET_SOURCE            ="$BQ_DATASET_SOURCE
+echo "  BQ_DATASET_WORKING           ="$BQ_DATASET_WORKING
+echo "  BQ_DATASET_EXPO              ="$BQ_DATASET_EXPO
+echo "  GCS_BUCKET_SOURCE            ="$GCS_BUCKET_SOURCE
+echo "  GCS_BUCKET_WORKING           ="$GCS_BUCKET_WORKING
+echo "  GCS_BUCKET_EXPO              ="$GCS_BUCKET_EXPO
+echo "======== GEMINI                ========"
+echo "  GEMINI_API_KEY               ="$GEMINI_API_KEY
+echo "  GEMINI_MODEL                 ="$GEMINI_MODEL
+echo "======== Dataiku               ========"
+echo "  DSS_API_KEY                  ="$DSS_API_KEY
+echo "  DSS_PROJECT_KEY              ="$DSS_PROJECT_KEY
+echo "  DSS_BQ_CONNECTION_NAME       ="$DSS_BQ_CONNECTION_NAME
+echo "  DSS_GCS_CONNECTION_NAME      ="$DSS_GCS_CONNECTION_NAME
+echo "  DSS_EXTENSION_TEMP_FILE_PATH ="$DSS_EXTENSION_TEMP_FILE_PATH
+echo "======== REPOSITORY STRUCTURE ========"
+echo "  REPOSITORY_ROOT_DIR          ="$REPOSITORY_ROOT_DIR
+echo "  ├─ DATA_DIR                  ="$DATA_DIR
+echo "  │  ├─ RAW_DATA_DIR           ="$RAW_DATA_DIR
+echo "  │  ├─ INTERMEDIATE_DATA_DIR  ="$INTERMEDIATE_DATA_DIR
+echo "  │  │  ├─LOCAL_AVRO_DIR       ="$LOCAL_AVRO_DIR
+echo "  │  │  ├─LOCAL_CSV_DIR        ="$LOCAL_CSV_DIR
+echo "  │  │  └─LOCAL_PARQUET_DIR    ="$LOCAL_PARQUET_DIR
+echo "  │  ├─ PROCESSED_DATA_DIR     ="$PROCESSED_DATA_DIR
+echo "  │  └─ PREDICTION_DATA_DIR    ="$PREDICTION_DATA_DIR
+echo "  ├─ DATAIKU_DIR               ="$DATAIKU_DIR
+echo "  ├─ MODEL_DIR                 ="$MODEL_DIR
+echo "  ├─ REFERENCE_DIR             ="$REFERENCE_DIR
+echo "  ├─ REPORT_DIR                ="$REPORT_DIR
+echo "  └─ SCHEMA_DIR                ="$SCHEMA_DIR
