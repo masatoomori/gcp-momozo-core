@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "<terraform-state-bucket>"
-    prefix = "<terraform-state-prefix>"
+    bucket = "momozo-core-tfstate"
+    prefix = "gcp-momozo-core"
   }
 }

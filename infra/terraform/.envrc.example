@@ -1,7 +1,8 @@
 source_up
 
-export TF_VAR_project_id=$(gcloud config get-value project)
-export TF_VAR_region=$TERRAFORM_STATE_REGION
+export TF_VAR_project_id=momozo-core
+export TF_VAR_region=asia-northeast1  
+export TF_VAR_domain_name=momozo-inn.com
 
 diff_output=$(diff .envrc .envrc.example)
 if [ ! -z "$diff_output" ]; then
