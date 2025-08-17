@@ -143,105 +143,104 @@ https://www.momozo-inn.com/
 ````bash
 # ロードバランサの IP を確認
 cd infra/terraform
-terraform output lb_ip_address
+# Momozo Inn — 静的サイト（Firebase Hosting）
 
-# DNS の反映確認（Google Public DNS）
-dig @8.8.8.8 +short www.momozo-inn.com A
+このリポジトリは Momozo Inn（momozo-inn.com）の静的ウェブサイトを管理します。
+現状は Firebase Hosting を使って公開しています（`public/` ディレクトリ）。
 
-# 証明書の状態確認
-gcloud compute ssl-certificates describe dev-www-cert --project=momozo-core --format="yaml"
+## 概要
 
+- プロジェクト: `momozo-core`
+- ドメイン: `momozo-inn.com`, `www.momozo-inn.com`
+- ホスティング: Firebase Hosting（`public/`）
+- デプロイ方法: `firebase deploy`（CI で自動化可）
+- 以前の GCP ロードバランサ経由の配信は Terraform で破棄済み
 
-証明書の状態が `PROVISIONING` から `ACTIVE` に変わると、HTTPS 配信が有効になります（DNS の反映状況と合わせて数分〜数十分かかります）。
+## ディレクトリ構成
 
-### 環境変数
+```
+gcp-momozo-core/
+├── public/                 # ウェブサイト公開ファイル (index.html, 404.html)
+├── infra/                  # インフラ構成 (Terraform, scripts)
+│   └── terraform/
+├── .github/                # GitHub Actions や CI 設定
+├── firebase.json           # Firebase Hosting 設定
+├── .firebaserc             # Firebase プロジェクトと hosting targets
+├── deploy.sh               # デプロイ補助スクリプト (ローカル用)
+└── README.md               # このファイル
+```
 
-以下の環境変数が使用されます：
+## クイックスタート
+
+前提: `gcloud`, `firebase` CLI がインストール・認証済みであること。
+
+1. リポジトリをクローンして作業ディレクトリへ移動
 
 ```bash
-export TF_VAR_project_id=momozo-core
-export TF_VAR_region=asia-northeast1
-export TF_VAR_domain_name=momozo-inn.com
-````
+cd /path/to/gcp-momozo-core
+```
 
-- **Google Storage Bucket**: ドメイン名と同名のバケット
-- **Bucket IAM Member**: 全ユーザーに読み取り権限を付与
-- **Storage Objects**: HTML ファイルをアップロード
+2. Firebase にログイン（初回）
 
-## 📚 詳細ドキュメント
+```bash
+firebase login
+```
 
-## 🛠️ 開発・運用
+3. プロジェクトを指定してデプロイ
 
-### バックアップとバージョン管理
+```bash
+firebase deploy --only hosting --project=momozo-core
+```
 
-- Git: ソースコード管理
-- Cloud Storage バージョニング: アップロードファイルの履歴管理
-- Terraform 状態: インフラ設定の管理
+またはリポジトリに用意した `deploy.sh` を使ってデプロイできます。
 
-### モニタリング
+## カスタムドメインと DNS の手順（要約）
 
-Google Cloud Console で以下を監視できます：
+1. Firebase Console → Hosting → Add custom domain に `www.momozo-inn.com` を追加します。
+2. Firebase が提示する検証用 TXT を DNS に追加（本リポジトリは Cloud DNS 管理ゾーン `momozo-inn-com` を使用しています）。
+   - 例（gcloud で追加）:
 
-- Cloud Storage 使用量
-- アクセスログ
-- エラー状況
+```bash
+gcloud dns record-sets transaction start --zone=momozo-inn-com --project=momozo-core
+gcloud dns record-sets transaction add --zone=momozo-inn-com --project=momozo-core \
+  --name="www.momozo-inn.com." --type=TXT --ttl=300 '"hosting-site=momozo-core"'
+gcloud dns record-sets transaction execute --zone=momozo-inn-com --project=momozo-core
+```
 
-## 🔒 セキュリティ
+3. Firebase が検証を完了すると、Console が最終的な公開先の指示（CNAME または A レコード群）を表示します。表示された値に従って DNS を更新してください。
+   - Firebase の指示が CNAME の場合（例: `momozo-core.web.app.`）: `www` を CNAME にする。
+   - apex（裸ドメイン）は Firebase が指示する A レコード群に設定します（例: 199.36.158.100〜103等、必ず Console 表示を優先してください）。
 
-- **公開読み取り専用**: バケットは読み取り専用で公開
-- **HTTPS**: Google Cloud Storage による自動 HTTPS 配信
-- **IAM**: 最小権限の原則に基づく権限設定
+4. DNS 伝播および Firebase の SSL 発行を待ち、`https://www.momozo-inn.com` で配信されることを確認します。
 
-## 🆘 トラブルシューティング
+確認コマンド（運用時）
 
-### よくある問題
+```bash
+# DNS 確認
+dig +short CNAME www.momozo-inn.com
+dig +short TXT www.momozo-inn.com
 
-1. **認証エラー**
+# HTTPS 応答確認（SSL発行後）
+curl -vk https://www.momozo-inn.com/
+```
 
-   ```bash
-   gcloud auth application-default login
-   ```
+## Terraform と以前のロードバランサについて
 
-2. **バケット名の衝突**
+- 以前は GCS バケットをバックエンドとする Google Cloud Global HTTPS Load Balancer を Terraform で作成して `www` を配信していました。
+- 現在、その LB 関連リソース（Global IP、URL map、HTTPS proxy、managed cert 等）は Terraform で破棄済みです。LB を再作成する場合は `infra/terraform` を編集して再適用してください。
 
-   - バケット名はグローバルでユニークである必要があります
-   - 別のドメイン名を使用するか、プロジェクト ID を含める
+## トラブルシューティング
 
-3. **権限不足**
+- 続行ボタンが Firebase Console で押せない場合: ブラウザのシークレットモードで試すか Developer Tools の Console/Network ログを確認してください。
+- Firebase API を使った自動化で `403 PERMISSION_DENIED` が出る場合は ADC（Application Default Credentials）やサービスアカウントの設定を確認してください。
 
-   - プロジェクトで Storage Admin 権限が必要
+## 貢献
 
-   ```bash
-   gcloud projects add-iam-policy-binding momozo-core \
-     --member="user:your-email@domain.com" \
-     --role="roles/storage.admin"
-   ```
-
-4. **Terraform 初期化エラー**
-
-   ```bash
-   cd infra/terraform
-   terraform init -reconfigure
-   ```
-
-問題が発生した場合：
-
-1. [Google Cloud ドキュメント](https://cloud.google.com/storage/docs/hosting-static-website)を確認
-2. Terraform エラーは `terraform validate` で構文をチェック
-3. リソース競合の場合は `terraform import` を検討
-
-## 📄 ライセンス
-
-このプロジェクトは MIT License の下で公開されています。
-
-## 🤝 貢献
-
-1. このリポジトリをフォーク
-2. フィーチャーブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
+1. ブランチを作成
+2. 変更をコミット
+3. プルリクエストを作成
 
 ---
 
-Built with ❤️ using Google Cloud Platform and Terraform
+最小限に整理した README です。詳細な運用手順（CI 連携、サービスアカウントの設定、Terraform の完全削除手順など）が必要なら追記します。
+````
