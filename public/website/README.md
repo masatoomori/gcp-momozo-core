@@ -24,7 +24,7 @@
    - `allUsers` に `roles/storage.objectViewer` 権限を付与
 
 3. **ウェブサイトコンテンツ**
-   - `../../website/` ディレクトリから HTML ファイルをアップロード
+   - `../../public/` ディレクトリから HTML ファイルをアップロード
    - `index.html` - メインページ
    - `404.html` - エラーページ
 
@@ -60,7 +60,7 @@ terraform apply
 
 ウェブサイトのコンテンツを更新する場合：
 
-1. `../../website/` ディレクトリ内の HTML ファイルを編集
+1. `../../public/` ディレクトリ内の HTML ファイルを編集
 2. Terraform apply を実行して Cloud Storage に反映
 
 ```bash

@@ -1,6 +1,9 @@
 # Momozo Inn - シンプルな静的ウェブサイト
 
 このリポジトリは、Google Cloud Platform 上でホストされる Momozo Inn（momozo-inn.com）の静的ウェブサイトを管理するためのプロジェクトです。
+# Momozo Inn - シンプルな静的ウェブサイト
+
+このリポジトリは、Google Cloud Platform 上でホストされる Momozo Inn（momozo-inn.com）の静的ウェブサイトを管理するためのプロジェクトです。
 
 ## 🌟 プロジェクト概要
 
@@ -114,9 +117,7 @@ https://momozo-inn.com.storage.googleapis.com
 https://www.momozo-inn.com/
 ```
 
-注: `www` サブドメインはロードバランサのグローバル IP に向ける必要があります（以下を参照）。
 
-## 🔧 DNS 設定（今回の手順）
 
 今回は Google Domains のブラウザ画面から DNS を設定しました。手順:
 
@@ -151,13 +152,8 @@ dig @8.8.8.8 +short www.momozo-inn.com A
 # 証明書の状態確認
 gcloud compute ssl-certificates describe dev-www-cert --project=momozo-core --format="yaml"
 
-# HTTPS 応答確認
-curl -vk https://www.momozo-inn.com/
-```
 
 証明書の状態が `PROVISIONING` から `ACTIVE` に変わると、HTTPS 配信が有効になります（DNS の反映状況と合わせて数分〜数十分かかります）。
-
-## 🔧 設定詳細
 
 ### 環境変数
 
@@ -168,23 +164,14 @@ export TF_VAR_project_id=momozo-core
 export TF_VAR_region=asia-northeast1
 export TF_VAR_domain_name=momozo-inn.com
 ```
-
-### Terraform リソース
-
 - **Google Storage Bucket**: ドメイン名と同名のバケット
 - **Bucket IAM Member**: 全ユーザーに読み取り権限を付与
 - **Storage Objects**: HTML ファイルをアップロード
 
 ## 📚 詳細ドキュメント
 
-- [ウェブサイトコンテンツ詳細](website/README.md)
-- [インフラセットアップガイド](infra/scripts/README.md)
-
 ## 🛠️ 開発・運用
 
-### ローカル開発
-
-HTML ファイルをローカルで編集・プレビューした後、デプロイスクリプトで本番環境に反映します。
 
 ### バックアップとバージョン管理
 
@@ -238,7 +225,6 @@ Google Cloud Console で以下を監視できます：
    terraform init -reconfigure
    ```
 
-### サポート
 
 問題が発生した場合：
 

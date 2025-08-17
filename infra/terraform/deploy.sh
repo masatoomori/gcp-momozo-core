@@ -9,8 +9,8 @@ echo "🍑 Momozo Inn Website Deployment Script"
 echo "========================================"
 
 # Check if we're in the right directory
-if [[ ! -f "../../website/index.html" ]]; then
-    echo "❌ Error: website/index.html not found. Please run this script from the repository root."
+if [[ ! -f "../../public/index.html" ]]; then
+    echo "❌ Error: public/index.html not found. Please run this script from the repository root."
     exit 1
 fi
 
@@ -40,7 +40,7 @@ echo "   - https://storage.googleapis.com/momozo-inn.com/index.html"
 echo "   - https://momozo-inn.com.storage.googleapis.com"
 echo ""
 echo "📝 To update website content:"
-echo "1. Edit files in the website/ directory"
+echo "1. Edit files in the public/ directory"
 echo "2. Run 'terraform apply' to upload changes"
 echo ""
 
