@@ -5,9 +5,6 @@
   "targets": {
     "momozo-core": {
       "hosting": {
-        "apex-redirect": [
-          "momozo-core"
-        ],
         "site": [
           "momozo-core"
         ]

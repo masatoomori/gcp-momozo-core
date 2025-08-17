@@ -10,17 +10,6 @@
           "destination": "/index.html"
         }
       ]
-    },
-    {
-      "target": "apex-redirect",
-      "public": "public",
-      "redirects": [
-        {
-          "source": "/**",
-          "destination": "https://www.momozo-inn.com",
-          "type": 301
-        }
-      ]
     }
   ]
 }
