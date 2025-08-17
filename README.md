@@ -14,7 +14,7 @@
 
 ```
 gcp-momozo-core/
-├── website/                 # ウェブサイトコンテンツ
+├── public/                 # ウェブサイトコンテンツ
 │   ├── index.html          # メインページ
 │   ├── 404.html            # エラーページ
 │   └── README.md           # ウェブサイト詳細ドキュメント
@@ -66,15 +66,6 @@ cd infra/scripts
 ./deploy.sh
 ```
 
-または手動で：
-
-```bash
-cd infra/terraform
-terraform init
-terraform plan
-terraform apply
-```
-
 ## 🎨 ウェブサイトコンテンツの更新
 
 1. `website/` ディレクトリ内の HTML ファイルを編集
@@ -86,8 +77,6 @@ terraform apply
 ./deploy.sh
 ```
 
-Terraform が自動的に変更を検知し、更新されたファイルのみを Google Cloud Storage にアップロードします。
-
 ## 🌐 アクセス URL
 
 デプロイ後、以下の URL でウェブサイトにアクセスできます：
@@ -95,75 +84,13 @@ Terraform が自動的に変更を検知し、更新されたファイルのみ�
 ### 直接アクセス
 
 ```text
-https://storage.googleapis.com/momozo-inn.com/index.html
+https://www.momozo-inn.com/index.html
 ```
 
 ### バケット URL
 
 ```
 https://momozo-inn.com.storage.googleapis.com
-```
-
-### カスタムドメイン（www） — HTTPS 配信
-
-このリポジトリでは `www.momozo-inn.com` を Google Cloud の HTTPS ロードバランサ（Managed SSL）経由で配信する設定を Terraform により追加しています。
-
-出力される URL:
-
-```
-https://www.momozo-inn.com/
-```
-
-今回は Google Domains のブラウザ画面から DNS を設定しました。手順:
-
-1. <https://domains.google.com/> にログイン
-2. ドメイン `momozo-inn.com` を選択
-3. 左メニューで「DNS」を選択
-4. 「カスタム リソース レコード」のセクションで新規追加:
-
-   - 名前: `www`
-   - 種別: `A`
-   - TTL: `300`
-   - データ(IPv4 address): `34.110.186.83` ← ロードバランサのグローバル IP
-
-   - 保存して反映を待つ
-
-注意点:
-
-- Cloudflare 等のプロキシを使う場合はプロキシ機能を無効（オフ）にしてください。プロキシが有効だと Google の Managed SSL の検証や直接の TLS 接続に影響します。
-
-- apex（裸ドメイン）を扱う場合は別途設定が必要です（今回の設定では `momozo-inn.com` は apex に A レコードを向けています）。
-
-## ✅ デプロイ後の確認コマンド
-
-````bash
-# ロードバランサの IP を確認
-cd infra/terraform
-# Momozo Inn — 静的サイト（Firebase Hosting）
-
-このリポジトリは Momozo Inn（momozo-inn.com）の静的ウェブサイトを管理します。
-現状は Firebase Hosting を使って公開しています（`public/` ディレクトリ）。
-
-## 概要
-
-- プロジェクト: `momozo-core`
-- ドメイン: `momozo-inn.com`, `www.momozo-inn.com`
-- ホスティング: Firebase Hosting（`public/`）
-- デプロイ方法: `firebase deploy`（CI で自動化可）
-- 以前の GCP ロードバランサ経由の配信は Terraform で破棄済み
-
-## ディレクトリ構成
-
-```
-gcp-momozo-core/
-├── public/                 # ウェブサイト公開ファイル (index.html, 404.html)
-├── infra/                  # インフラ構成 (Terraform, scripts)
-│   └── terraform/
-├── .github/                # GitHub Actions や CI 設定
-├── firebase.json           # Firebase Hosting 設定
-├── .firebaserc             # Firebase プロジェクトと hosting targets
-├── deploy.sh               # デプロイ補助スクリプト (ローカル用)
-└── README.md               # このファイル
 ```
 
 ## クイックスタート
@@ -209,27 +136,33 @@ firebase deploy --only hosting --project=momozo-core
 
 ディレクトリ構成（主要）
 ```
+
 gcp-momozo-core/
-├── public/                 # 公開ファイル（index.html 等）
-├── infra/                  # インフラ定義（Terraform, scripts）
-└── firebase.json           # Firebase Hosting の設定
-```
+├── public/ # 公開ファイル（index.html 等）
+├── infra/ # インフラ定義（Terraform, scripts）
+└── firebase.json # Firebase Hosting の設定
+
+````
 
 クイックデプロイ
 1. Firebase CLI にログイン
 ```bash
 firebase login
-```
+````
+
 2. ホスティングをデプロイ
+
 ```bash
 firebase deploy --only hosting:site --project=momozo-core
 ```
 
 カスタムドメイン（www）
+
 - `www.momozo-inn.com` は Firebase Hosting に接続済みです。DNS は `www` を CNAME で `momozo-core.web.app.` に向けており、Firebase がホスト名を受けて配信します。
 - 裸ドメイン（`momozo-inn.com`）を `www` にリダイレクトしたい場合は、別の hosting site を作って専用の redirect 設定を行うのが安全です（手順は下記）。
 
 裸ドメインを apex→www でリダイレクトする（必要な場合）
+
 ```bash
 # 1) 専用の hosting site を作成
 firebase hosting:sites:create momozo-core-apex --project=momozo-core
@@ -242,11 +175,16 @@ firebase deploy --only hosting:apex-redirect --project=momozo-core
 ```
 
 README の更新履歴
+
 - Firebase Hosting に移行し、以前の GCP ロードバランサ設定は Terraform で破棄済みです。
 
 運用メモ
+
 - 変更は `public/` を編集してコミット、`firebase deploy` で反映します。
 - Terraform 関連の変更（`infra/terraform`）は別途管理しており、GCS バケットは Terraform の構成から不要な部分を削除済みです。
 
 追加のドキュメントや CI 設定の追記が必要なら教えてください。
-````
+
+```
+
+```
