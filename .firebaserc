@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "momozo-core"
+  },
+  "targets": {
+    "momozo-core": {
+      "hosting": {
+        "site": [
+          "momozo-core"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
