@@ -8,17 +8,14 @@ resource "google_storage_bucket" "website" {
   storage_class = "STANDARD"
 
   # Enable website configuration
-  website {
-    main_page_suffix = "index.html"
-    not_found_page   = "404.html"
-  }
+  # Website configuration removed — served by Firebase Hosting instead
 
   # Enable uniform bucket-level access
   uniform_bucket_level_access = true
 
-  # Enable versioning for content updates
+  # Versioning disabled (managed via GitHub/Firebase)
   versioning {
-    enabled = true
+    enabled = false
   }
 
   # Labels for organization
@@ -35,5 +32,3 @@ resource "google_storage_bucket_iam_member" "public_read" {
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
-# Upload index.html
-
