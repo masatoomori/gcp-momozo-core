@@ -1,3 +1,3 @@
 locals {
-  env        = "dev" # dev / stg / prod
+  env = "dev" # dev / stg / prod
 }
