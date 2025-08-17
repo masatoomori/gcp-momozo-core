@@ -35,26 +35,5 @@ resource "google_storage_bucket_iam_member" "public_read" {
   role   = "roles/storage.objectViewer"
   member = "allUsers"
 }
-
 # Upload index.html
-resource "google_storage_bucket_object" "index_html" {
-  name         = "index.html"
-  bucket       = google_storage_bucket.website.name
-  source       = "${path.root}/../../public/index.html"
-  content_type = "text/html"
-
-  # Generate MD5 hash to detect changes
-  detect_md5hash = filemd5("${path.root}/../../public/index.html")
-}
-
-# Upload 404.html
-resource "google_storage_bucket_object" "not_found_html" {
-  name         = "404.html"
-  bucket       = google_storage_bucket.website.name
-  source       = "${path.root}/../../public/404.html"
-  content_type = "text/html"
-
-  # Generate MD5 hash to detect changes
-  detect_md5hash = filemd5("${path.root}/../../public/404.html")
-}
 
