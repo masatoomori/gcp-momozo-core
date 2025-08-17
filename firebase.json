@@ -1,12 +1,26 @@
 {
-  "hosting": {
-    "public": "public",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
+  "hosting": [
+    {
+      "target": "site",
+      "public": "public",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "apex-redirect",
+      "public": "public",
+      "redirects": [
+        {
+          "source": "/**",
+          "destination": "https://www.momozo-inn.com",
+          "type": 301
+        }
+      ]
+    }
+  ]
 }
