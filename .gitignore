@@ -130,5 +130,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Firebase local cache and debug log
+.firebase/
+firebase-debug.log
+
 # Mac
 .DS_Store
