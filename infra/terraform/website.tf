@@ -26,9 +26,9 @@ resource "google_storage_bucket" "website" {
   }
 }
 
-# Make the bucket publicly readable
-resource "google_storage_bucket_iam_member" "public_read" {
-  bucket = google_storage_bucket.website.name
-  role   = "roles/storage.objectViewer"
-  member = "allUsers"
-}
+# Make the bucket publicly readable (commented out for safety)
+# resource "google_storage_bucket_iam_member" "public_read" {
+#   bucket = google_storage_bucket.website.name
+#   role   = "roles/storage.objectViewer"
+#   member = "allUsers"
+# }
