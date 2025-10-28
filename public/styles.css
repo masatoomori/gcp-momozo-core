@@ -129,15 +129,10 @@ dd {
 .external-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0; /* no icon, no gap */
   color: var(--accent);
   text-decoration: none;
-}
-.external-link svg {
-  width: 0.9em;
-  height: 0.9em;
-  flex-shrink: 0;
-  vertical-align: text-bottom;
+  font-size: inherit;
 }
 .external-link:focus,
 .external-link:hover {
