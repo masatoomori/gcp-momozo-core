@@ -125,6 +125,25 @@ dd {
   margin-top: 16px;
 }
 
+/* External link icon */
+.external-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  text-decoration: none;
+}
+.external-link svg {
+  width: 0.9em;
+  height: 0.9em;
+  flex-shrink: 0;
+  vertical-align: text-bottom;
+}
+.external-link:focus,
+.external-link:hover {
+  text-decoration: underline;
+}
+
 /* Footer */
 footer {
   text-align: center;
