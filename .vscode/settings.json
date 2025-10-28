@@ -1,0 +1,12 @@
+{
+  "cSpell.words": ["envrc", "optuna"],
+  "workbench.colorCustomizations": {
+    "tab.activeBackground": "#4b4b53",
+    "tab.hoverForeground": "#ffffff",
+    "tab.hoverBackground": "#2f3233",
+    "titleBar.activeBackground": "#CF6B83",
+    "titleBar.activeForeground": "#b4b9cd",
+    "titleBar.inactiveBackground": "#AD7984",
+    "titleBar.inactiveForeground": "#868fa7"
+  }
+}
