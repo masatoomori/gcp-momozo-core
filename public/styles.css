@@ -141,6 +141,10 @@ dt {
 dd {
   margin: 0;
 }
+.business-list {
+  margin: 0;
+  padding-left: 1.4em;
+}
 .map {
   margin-top: 16px;
 }
