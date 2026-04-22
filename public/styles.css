@@ -16,6 +16,20 @@
 }
 
 /* Base */
+/* Ensure predictable sizing so max-width works as expected */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Make images responsive by default */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 html,
 body {
   height: 100%;
@@ -258,12 +272,15 @@ footer {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
   margin: 16px 0 8px;
+  justify-items: center; /* center columns so images don't span full width unnecessarily */
+  width: 100%;
+  overflow: hidden; /* prevent children from visually overflowing */
 }
 .property-image {
   width: 100%;
-  height: auto;
-  max-height: 420px;
-  object-fit: cover;
+  max-width: min(720px, 100%); /* cap at 720px but never exceed container */
+  height: auto; /* preserve aspect ratio */
+  object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   border: 1px solid var(--card-border);
