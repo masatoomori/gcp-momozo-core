@@ -9,10 +9,10 @@
   --card-border: #dddddd;
   /* Listing page — based on 和色 palette */
   --thumbnail-bg-start: #d6c6af; /* 亜麻色 */
-  --thumbnail-bg-end: #cbb994;   /* 白橡 */
-  --thumbnail-text: #5a544b;     /* 海松茶 */
-  --booking-btn: #e9546b;        /* 薔薇色 */
-  --booking-btn-hover: #e95464;  /* 韓紅 */
+  --thumbnail-bg-end: #cbb994; /* 白橡 */
+  --thumbnail-text: #5a544b; /* 海松茶 */
+  --booking-btn: #e9546b; /* 薔薇色 */
+  --booking-btn-hover: #e95464; /* 韓紅 */
 }
 
 /* Base */
@@ -190,7 +190,11 @@ footer {
   text-decoration: none;
 }
 .property-thumbnail-placeholder {
-  background: linear-gradient(135deg, var(--thumbnail-bg-start) 0%, var(--thumbnail-bg-end) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--thumbnail-bg-start) 0%,
+    var(--thumbnail-bg-end) 100%
+  );
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -246,4 +250,31 @@ footer {
 }
 .booking-button:hover {
   background-color: var(--booking-btn-hover);
+}
+
+/* Gallery styles for listing page */
+.property-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 16px 0 8px;
+}
+.property-image {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--card-border);
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .property-gallery {
+    grid-template-columns: 1fr;
+  }
+  .property-image {
+    max-height: 260px;
+  }
 }
