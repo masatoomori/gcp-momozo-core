@@ -7,6 +7,12 @@
   --border: #e0e0e0;
   --accent: #007bff;
   --card-border: #dddddd;
+  /* Listing page — based on 和色 palette */
+  --thumbnail-bg-start: #d6c6af; /* 亜麻色 */
+  --thumbnail-bg-end: #cbb994;   /* 白橡 */
+  --thumbnail-text: #5a544b;     /* 海松茶 */
+  --booking-btn: #e9546b;        /* 薔薇色 */
+  --booking-btn-hover: #e95464;  /* 韓紅 */
 }
 
 /* Base */
@@ -146,4 +152,98 @@ footer {
   padding: 20px 0;
   border-top: 1px solid var(--border);
   color: var(--muted);
+}
+
+/* Listing page */
+.listing header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.listing header h1 {
+  margin: 0;
+  font-size: 1.8em;
+  color: var(--text);
+}
+.listing nav a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.listing nav a:hover {
+  text-decoration: underline;
+}
+
+.property-card {
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.property-thumbnail {
+  width: 100%;
+}
+.property-thumbnail a {
+  display: block;
+  text-decoration: none;
+}
+.property-thumbnail-placeholder {
+  background: linear-gradient(135deg, var(--thumbnail-bg-start) 0%, var(--thumbnail-bg-end) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 240px;
+  gap: 12px;
+  transition: opacity 0.2s;
+}
+.property-thumbnail-placeholder:hover {
+  opacity: 0.85;
+}
+.property-thumbnail-icon {
+  font-size: 4em;
+}
+.property-thumbnail-label {
+  font-size: 1em;
+  color: var(--thumbnail-text);
+  font-family: var(--font-family);
+}
+
+.property-info {
+  padding: 24px;
+}
+
+.property-title {
+  font-size: 1.5em;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+
+.property-description p {
+  margin: 0 0 12px;
+  line-height: 1.8;
+  color: var(--text);
+}
+.property-description p:last-child {
+  margin-bottom: 0;
+}
+
+.property-booking {
+  margin-top: 24px;
+}
+.booking-button {
+  display: inline-block;
+  background-color: var(--booking-btn);
+  color: #ffffff;
+  padding: 12px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 1em;
+  font-family: var(--font-family);
+  transition: background-color 0.2s;
+}
+.booking-button:hover {
+  background-color: var(--booking-btn-hover);
 }
