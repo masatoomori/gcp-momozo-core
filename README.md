@@ -13,12 +13,16 @@
 
 ## 📁 ディレクトリ構成
 
-```
+```text
 gcp-momozo-core/
 ├── public/                 # ウェブサイトコンテンツ
 │   ├── index.html          # メインページ
 │   ├── 404.html            # エラーページ
-│   └── README.md           # ウェブサイト詳細ドキュメント
+│   ├── company.html        # 会社情報ページ
+│   ├── listing.html        # 物件一覧ページ
+│   ├── styles.css          # 共通スタイル
+│   ├── images/             # 画像資産
+│   └── website/            # サイト固有のテンプレートや追加アセット
 ├── infra/                  # インフラストラクチャ設定
 │   ├── terraform/          # Terraform設定ファイル
 │   │   ├── provider.tf     # Google Cloud Provider設定
@@ -27,7 +31,7 @@ gcp-momozo-core/
 │   │   ├── website.tf      # ウェブサイトリソース
 │   │   ├── outputs.tf      # 出力値
 │   │   ├── state.tf        # Terraform状態管理
-│   │   └── .envrc.example  # 環境変数テンプレート
+│   │   └── .envrc.example  # 環境変数テンプレート (存在する場合)
 │   └── scripts/            # セットアップスクリプト
 └── deploy.sh               # デプロイメントスクリプト
 ```
@@ -69,7 +73,7 @@ cd infra/scripts
 
 ## 🎨 ウェブサイトコンテンツの更新
 
-1. `website/` ディレクトリ内の HTML ファイルを編集
+1. `public/website/` または `public/` 配下の HTML ファイルを編集
 2. 変更をコミット
 3. デプロイスクリプトを実行
 
