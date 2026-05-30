@@ -20,6 +20,8 @@ gcp-momozo-core/
 │   ├── 404.html            # エラーページ
 │   ├── company.html        # 会社情報ページ
 │   ├── listing.html        # 物件一覧ページ
+│   ├── about.html          # 町家の特徴 — 解説ページ一覧（英語）
+│   ├── stairs.html         # 解説ページ 1: 急な階段（英語）
 │   ├── styles.css          # 共通スタイル
 │   ├── images/             # 画像資産
 │   └── website/            # サイト固有のテンプレートや追加アセット

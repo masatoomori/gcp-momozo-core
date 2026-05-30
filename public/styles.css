@@ -321,3 +321,107 @@ footer {
     max-height: 260px;
   }
 }
+
+/* Machiya note on listing page */
+.machiya-note {
+  margin-top: 12px;
+  font-size: 0.9em;
+  color: var(--muted);
+}
+.machiya-note a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.machiya-note a:hover {
+  text-decoration: underline;
+}
+
+/* Explainer pages (about.html, stairs.html, …) */
+.explainer .container {
+  max-width: 640px;
+}
+
+.explainer-header {
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.explainer-header h1 {
+  margin: 0 0 6px;
+  font-size: 1.8em;
+  color: var(--text);
+}
+.explainer-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1em;
+}
+
+.explainer-content p,
+.explainer > .container > main > p {
+  line-height: 1.8;
+  margin: 0 0 14px;
+}
+.explainer-content h2 {
+  font-size: 1.2em;
+  margin: 28px 0 10px;
+  color: var(--text);
+}
+
+.explainer-photo-placeholder {
+  background: linear-gradient(
+    135deg,
+    var(--thumbnail-bg-start) 0%,
+    var(--thumbnail-bg-end) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+.explainer-photo-label {
+  color: var(--thumbnail-text);
+  font-size: 0.95em;
+}
+
+.explainer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+}
+.explainer-nav li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.explainer-nav li:last-child {
+  border-bottom: none;
+}
+.explainer-nav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 1.05em;
+}
+.explainer-nav a:hover {
+  text-decoration: underline;
+}
+.explainer-nav-future {
+  color: var(--muted);
+  font-size: 1.05em;
+}
+
+.explainer footer {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.9em;
+}
+.explainer footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.explainer footer a:hover {
+  text-decoration: underline;
+}
