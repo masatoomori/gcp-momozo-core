@@ -276,6 +276,9 @@ footer {
 
 .property-booking {
   margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 .booking-button {
   display: inline-block;
