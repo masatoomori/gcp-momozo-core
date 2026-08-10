@@ -11,8 +11,10 @@
   --thumbnail-bg-start: #d6c6af; /* 亜麻色 */
   --thumbnail-bg-end: #cbb994; /* 白橡 */
   --thumbnail-text: #5a544b; /* 海松茶 */
-  --booking-btn: #e9546b; /* 薔薇色 */
-  --booking-btn-hover: #e95464; /* 韓紅 */
+  --booking-btn-airbnb: #e9546b; /* 薔薇色 */
+  --booking-btn-airbnb-hover: #e95464; /* 韓紅 */
+  --booking-btn-booking: #203744; /* 褐返 */
+  --booking-btn-booking-hover: #44617b; /* 紺鼠 */
 }
 
 /* Base */
@@ -276,10 +278,14 @@ footer {
 
 .property-booking {
   margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 .booking-button {
-  display: inline-block;
-  background-color: var(--booking-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #ffffff;
   padding: 12px 28px;
   border-radius: 6px;
@@ -287,9 +293,19 @@ footer {
   font-size: 1em;
   font-family: var(--font-family);
   transition: background-color 0.2s;
+  text-align: center;
 }
-.booking-button:hover {
-  background-color: var(--booking-btn-hover);
+.booking-button-airbnb {
+  background-color: var(--booking-btn-airbnb);
+}
+.booking-button-airbnb:hover {
+  background-color: var(--booking-btn-airbnb-hover);
+}
+.booking-button-booking {
+  background-color: var(--booking-btn-booking);
+}
+.booking-button-booking:hover {
+  background-color: var(--booking-btn-booking-hover);
 }
 
 /* Gallery styles for listing page */
