@@ -22,6 +22,7 @@ gcp-momozo-core/
 │   ├── listing.html        # 物件一覧ページ
 │   ├── about.html          # 町家の特徴 — 解説ページ一覧（英語）
 │   ├── stairs.html         # 解説ページ 1: 急な階段（英語）
+│   ├── site.js              # トップページの日付表示
 │   ├── styles.css          # 共通スタイル
 │   ├── images/             # 画像資産
 │   └── website/            # サイト固有のテンプレートや追加アセット
@@ -44,6 +45,7 @@ gcp-momozo-core/
 
 - Google Cloud Platform アカウント
 - `gcloud` CLI がインストール・認証済み
+- Firebase CLI がインストール済み
 - Terraform v1.0 以降
 
 ### 2. 環境設定
@@ -52,6 +54,7 @@ gcp-momozo-core/
 # Google Cloud認証
 gcloud auth login
 gcloud auth application-default login
+firebase login
 
 # プロジェクトの設定
 gcloud config set project momozo-core
@@ -72,6 +75,19 @@ cd infra/scripts
 # リポジトリルートから実行
 ./deploy.sh
 ```
+
+## 🔐 セキュリティ
+
+- Firebase Hosting のセキュリティヘッダーは `firebase.json` で管理します。
+- CSP は同一オリジンのスクリプト・スタイルを基本とし、Google Fonts と Google Maps を許可します。
+- `nosniff`、クリックジャッキング対策、Referrer Policy、Permissions Policy も設定しています。
+- HTML にインライン JavaScript/CSS を追加するとCSPでブロックされます。
+- スクリプトは `public/` 内の外部ファイルに、スタイルは `public/styles.css` に追加してください。
+- 静的な複数ページ構成のため、全URLをトップページへ書き換えていません。
+- 存在しないパスには `public/404.html` が使われます。
+- `deploy.sh` は `--token` を受け付けません。ローカルでは `firebase login`、
+- CIではFirebase CLIが利用できる非対話認証を設定してください。
+- 認証情報をコマンドライン引数やログに出力しないでください。
 
 ## 🎨 ウェブサイトコンテンツの更新
 
