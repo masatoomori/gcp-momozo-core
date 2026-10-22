@@ -120,6 +120,10 @@ body {
 .content {
   padding: 20px 0;
 }
+.home-date {
+  margin: 40px 0;
+  text-align: center;
+}
 .welcome-message {
   background-color: #f8f9fa;
   padding: 20px;
@@ -171,6 +175,9 @@ dd {
 }
 .map {
   margin-top: 16px;
+}
+.map-frame {
+  border: 0;
 }
 
 /* External link icon */
@@ -355,6 +362,67 @@ footer {
 /* Explainer pages (about.html, stairs.html, …) */
 .explainer .container {
   max-width: 640px;
+}
+
+.not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+.not-found-container {
+  max-width: 600px;
+  margin: 20px;
+  padding: 40px;
+  background-color: var(--container-bg);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+}
+.not-found-code {
+  margin: 0;
+  color: #e74c3c;
+  font-size: 8em;
+  font-weight: bold;
+  line-height: 1;
+}
+.not-found h1 {
+  margin: 20px 0;
+  color: var(--text);
+  font-size: 2em;
+}
+.not-found p {
+  margin: 20px 0;
+  color: var(--muted);
+  font-size: 1.1em;
+}
+.not-found-link {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 30px;
+  border-radius: 5px;
+  background-color: var(--accent);
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+.not-found-link:hover {
+  background-color: #0056b3;
+}
+.not-found-emoji {
+  margin: 20px 0;
+  font-size: 3em;
+}
+.not-found-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: #999999;
+  font-size: 0.9em;
+}
+.not-found-footer p {
+  color: inherit;
+  font-size: inherit;
 }
 
 .explainer-header {

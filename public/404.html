@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -9,66 +9,12 @@
       href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&display=swap"
       rel="stylesheet"
     />
-    <style>
-      body {
-        font-family: "Shippori Mincho", "Hiragino Sans", "Yu Gothic", serif;
-        line-height: 1.6;
-        margin: 0;
-        padding: 0;
-        background-color: #f5f5f5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-      }
-      .container {
-        max-width: 600px;
-        padding: 40px;
-        background-color: white;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        text-align: center;
-      }
-      .error-code {
-        font-size: 8em;
-        font-weight: bold;
-        color: #e74c3c;
-        margin: 0;
-        line-height: 1;
-      }
-      h1 {
-        color: #333;
-        margin: 20px 0;
-        font-size: 2em;
-      }
-      p {
-        color: #666;
-        font-size: 1.1em;
-        margin: 20px 0;
-      }
-      .home-link {
-        display: inline-block;
-        padding: 12px 30px;
-        background-color: #007bff;
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-top: 30px;
-        transition: background-color 0.3s;
-      }
-      .home-link:hover {
-        background-color: #0056b3;
-      }
-      .emoji {
-        font-size: 3em;
-        margin: 20px 0;
-      }
-    </style>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
-    <div class="container">
-      <div class="error-code">404</div>
-      <div class="emoji">🍑💫</div>
+  <body class="not-found">
+    <div class="not-found-container">
+      <div class="not-found-code">404</div>
+      <div class="not-found-emoji">🍑💫</div>
       <h1>ページが見つかりません</h1>
       <p>
         申し訳ございません。このページは存在しないか、移動または削除された可能性があります。
@@ -76,17 +22,9 @@
       <p>
         URLを確認していただくか、下のボタンからホームページに戻ってください。
       </p>
-      <a href="/" class="home-link">🏠 ホームページに戻る</a>
+      <a href="/" class="not-found-link">🏠 ホームページに戻る</a>
 
-      <div
-        style="
-          margin-top: 40px;
-          padding-top: 20px;
-          border-top: 1px solid #eee;
-          color: #999;
-          font-size: 0.9em;
-        "
-      >
+      <div class="not-found-footer">
         <p>Momozo Inn - momozo-inn.com</p>
       </div>
     </div>

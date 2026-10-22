@@ -12,12 +12,11 @@ DEFAULT_TARGET="site"          # firebase.json target name
 
 usage() {
     cat <<EOF
-Usage: $PROG_NAME [--project PROJECT] [--target TARGET] [--token TOKEN] [--dry-run]
+Usage: $PROG_NAME [--project PROJECT] [--target TARGET] [--dry-run]
 
 Options:
     --project PROJECT   Firebase/GCP project id (default: ${DEFAULT_PROJECT})
     --target TARGET     hosting target name from firebase.json (default: ${DEFAULT_TARGET})
-    --token TOKEN       CI token for non-interactive deploys
     --dry-run           Validate and print the deploy command without running it
     -h, --help          Show this help
 
@@ -25,14 +24,13 @@ Examples:
     # Interactive deploy (will use defaults or .firebaserc)
     ./deploy.sh
 
-    # Non-interactive deploy to a specific project with token
-    ./deploy.sh --project my-project --token XXX
+    # Non-interactive deploy to a specific project (requires Firebase CLI auth)
+    ./deploy.sh --project my-project
 EOF
 }
 
 PROJECT="${DEFAULT_PROJECT}"
 TARGET="${DEFAULT_TARGET}"
-TOKEN=""
 DRY_RUN=false
 
 while [[ $# -gt 0 ]]; do
@@ -41,8 +39,6 @@ while [[ $# -gt 0 ]]; do
             PROJECT="$2"; shift 2;;
         --target)
             TARGET="$2"; shift 2;;
-        --token)
-            TOKEN="$2"; shift 2;;
         --dry-run)
             DRY_RUN=true; shift;;
         -h|--help)
@@ -70,9 +66,6 @@ fi
 
 # Build deploy command
 DEPLOY_CMD=(firebase deploy --only hosting:${TARGET} --project "${PROJECT}")
-if [[ -n "${TOKEN}" ]]; then
-    DEPLOY_CMD+=(--token "${TOKEN}")
-fi
 
 if [[ "${DRY_RUN}" == true ]]; then
     echo "DRY RUN: ${DEPLOY_CMD[*]}"
